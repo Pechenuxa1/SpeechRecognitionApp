@@ -1,0 +1,6 @@
+fastapi==0.121.2
+uvicorn==0.38.0
+websockets==15.0.1
+vosk==0.3.45
+sounddevice==0.5.3
+numpy==2.3.5
