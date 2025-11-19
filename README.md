@@ -5,25 +5,32 @@
 
 ### Инструкция по запуску
 
-#### 1. Склонировать проект
+#### 1. Склонируйте проект
 git clone <url>
 
-#### 2. Перейти в корень проекта
+#### 2. Перейдите в корень проекта
 cd <path>/SpeechRecognitionApp
 
-#### 3. Создать виртуальное окружение
+#### 3. Скачайте модель vosk-model-small-ru-0.22.zip
+https://alphacephei.com/vosk/models
+или
+https://github.com/kercre123/vosk-models
+
+#### 4. Распакуйте zip-файл модели в папку <path>/SpeechRecognitionApp/model/
+
+#### 5. Создайте виртуальное окружение
 python -m venv venv
 
-#### 4. Активировать окружение
+#### 6. Активируйте окружение
 ##### Windows:
 venv\Scripts\activate
 ##### Linux/Mac:
 source venv/bin/activate
 
-#### 5. Установить зависимости
+#### 7. Установите зависимости
 pip install -r requirements.txt
 
-#### 6. Запустить веб-приложение
+#### 8. Запустите веб-приложение
 uvicorn main:app
 
-#### 7. Открыть в браузере http://127.0.0.1:8000
+#### 9. Откройте в браузере http://127.0.0.1:8000
