@@ -6,17 +6,17 @@
 ### Инструкция по запуску
 
 #### 1. Склонируйте проект
-git clone <url>
+git clone {url}
 
 #### 2. Перейдите в корень проекта
-cd <path>/SpeechRecognitionApp
+cd {path}/SpeechRecognitionApp
 
 #### 3. Скачайте модель vosk-model-small-ru-0.22.zip
 https://alphacephei.com/vosk/models
 или
 https://github.com/kercre123/vosk-models
 
-#### 4. Распакуйте zip-файл модели в папку <path>/SpeechRecognitionApp/model/
+#### 4. Распакуйте zip-файл модели в папку {path}/SpeechRecognitionApp/model/
 
 #### 5. Создайте виртуальное окружение
 python -m venv venv
