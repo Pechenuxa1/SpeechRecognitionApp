@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speech recognizer</title>
+    <style>
+         body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        textarea {
+            width: 400px;
+            height: 200px;
+            padding: 10px;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .status {
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <button id="recordButton">Начать запись</button>
+    <textarea id="textOutput" placeholder="Текст появится здесь..."></textarea>
+    <div class="status" id="status">Запись отключена</div>
+
+    <script>
+        const recordButton = document.getElementById('recordButton');
+        const textOutput = document.getElementById('textOutput');
+        const status = document.getElementById('status');
+
+        let ws = null;
+        let isRecording = false;
+
+        function connectWebSocket() {
+            const wsUrl = `ws://${window.location.host}/ws/recognize`;
+
+            ws = new WebSocket(wsUrl);
+
+            ws.onopen = function() {
+                status.textContent = 'Говорите...';
+                startRecording()
+            };
+
+            ws.onmessage = function(event) {
+                const data = event.data;
+                textOutput.value += data + ' ';
+                textOutput.scrollTop = textOutput.scrollHeight;
+                textOutput.focus()
+            };
+
+            ws.onclose = function() {
+                status.textContent = 'Запись отключена';
+                if (isRecording) {
+                    stopRecording();
+                }
+            };
+
+            ws.onerror = function(error) {
+                console.error('WebSocket error:', error);
+                status.textContent = 'Ошибка подключения';
+            };
+        }
+
+        function startRecording() {
+            if (ws && ws.readyState === WebSocket.OPEN) {
+                ws.send('start');
+                isRecording = true;
+                recordButton.textContent = 'Остановить запись';
+                recordButton.classList.add('recording');
+            }
+        }
+
+        function stopRecording() {
+            if (ws && ws.readyState === WebSocket.OPEN) {
+                ws.send('stop');
+                isRecording = false;
+                recordButton.textContent = 'Начать запись';
+                recordButton.classList.remove('recording');
+                ws.close()
+            }
+        }
+
+        recordButton.addEventListener('click', function() {
+            if (isRecording) {
+                stopRecording();
+            } else {
+                status.textContent = 'Подключение...';
+                connectWebSocket();
+            }
+        });
+    </script>
+</body>
+</html>
